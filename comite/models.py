@@ -68,7 +68,7 @@ class Fondo(models.Model):
             return 'Inactivo'
 
     def __str__(self):
-        return '%s Saldo: Q. %s' % (self.comite, self.saldo)
+        return '%s %s' % (self.comite, self.ciclo)
 
 class MovimientoFondo(models.Model):
     fondo = models.ForeignKey(Fondo, on_delete=models.CASCADE, verbose_name='Fondo')
@@ -80,6 +80,7 @@ class MovimientoFondo(models.Model):
 
 
     class Meta:
+        ordering = ['-tipoMovimiento']
         verbose_name = "MovimientoFondo"
         verbose_name_plural = "MovimientosFondo"
         db_table = 'MovimientosFondo'

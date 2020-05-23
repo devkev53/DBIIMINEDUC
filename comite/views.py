@@ -138,5 +138,24 @@ class ComiteUsuario(SinPrivilegios, TemplateView):
 
 '''     -       VISTAS DE REPORTE PARA EL COMITE       -    '''
 
-class  HelloPDFView( PDFTemplateView ):
+class  RegistroPDFView(PDFTemplateView ):
     template_name  =  'comite/Reportes/registro_movimientos.html'
+
+    def get_context_data(self, **kwargs):
+        # usuario =  UsuarioComite.objects.filter(usuario=)
+        usuario = self.request.user
+        perfil = UsuarioComite.objects.filter(usuario=usuario).get()
+        escuela = Escuela.objects.all()
+        comite_escuela = Comite.objects.select_related('escuela').filter(escuela=perfil.comite.escuela).get()
+        fondo = Fondo.objects.filter(comite=comite_escuela).first()
+        movimientos = MovimientoFondo.objects.filter(fondo=fondo)
+
+        return super(RegistroPDFView, self).get_context_data(
+            pagesize='Legal landscape',
+            title='RegistroMovimientosPDF',
+            usuario=usuario,
+            movimientos=movimientos,
+            fondo=fondo,
+            comite_escuela=comite_escuela,
+            **kwargs
+            )
