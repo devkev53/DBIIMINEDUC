@@ -5,6 +5,7 @@ from django.db import connection
 import random
 
 from core.models import Departamento, Municipio
+import datetime
 
 # Create your models here.
 
@@ -32,12 +33,13 @@ class Escuela(models.Model):
 
     # Llamamos a una funcion en la base de datos, y evaluamos si existe un Usuario
     def existe_usuario_sql(self):
-        dato = 0
+        # dato = 0
         result = False
-        with connection.cursor() as cursor:
-            dato = cursor.callfunc("FN_GET_USUARIO", int, [self.codigo])
-        # Segun el procedimiento creado si retorna 0 es que existe uno o mas comites
-        if  dato == 0:
+        # with connection.cursor() as cursor:
+        #     dato = cursor.callfunc("FN_GET_USUARIO", int, [self.codigo])
+        # # Segun el procedimiento creado si retorna 0 es que existe uno o mas comites
+        from perfil.models import UsuarioEscuela
+        if UsuarioEscuela.objects.filter(escuela=self.codigo).exists():
             result = True
         else:
             result = False
@@ -46,11 +48,17 @@ class Escuela(models.Model):
     # Llamamos a una funcion en la base de datos, y evaluamos si existe un comite
     def existe_fondo_sql(self):
         dato = 0
+        year = datetime.date.today().year
+        int(year)
         result = False
-        with connection.cursor() as cursor:
-            dato = cursor.callfunc("FN_GET_FONDO", int, [self.codigo])
+        from comite.models import Fondo
+        for f in Fondo.objects.fiter(ciclo=year):
+            if f.comite.escuela == self.codigo:
+                dato = dato + 1
+        # with connection.cursor() as cursor:
+        #     dato = cursor.callfunc("FN_GET_FONDO", int, [self.codigo])
         # Segun el procedimiento creado si retorna 0 es que existe uno o mas comites
-        if  dato == 0:
+        if  dato >= 1:
             result = True
         else:
             result = False

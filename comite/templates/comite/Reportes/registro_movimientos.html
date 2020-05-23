@@ -8,8 +8,70 @@
 	<!-- Carga de Bootstrap-->
     <link rel="stylesheet" href="{% static 'core/vendor/bootstrap/css/bootstrap.min.css' %}">
 </head>
+<style>
+	@page {
+		size: legal landscape; margin: 2cm;
+	}
+	.title{
+		text-transform: uppercase;
+		font-size: 25px;
+		text-align: center;
+	}
+	.o{
+		background-color: #FF5252;
+	}
+	.in{
+		background-color: #9EFD88;
+	}
+	table{
+		border: 1px solid #C4C4C4;
+		width: 50%;
+	}
+	th{
+		padding: 2px;
+		align-content: center;
+		font-weight: bold;
+		color: white;
+		background-color: #6A6A6A;
+	}
+	td{
+		padding: 2px;
+	}
+	canvas{
+		white-space: 50px;
+		width: 25px;
+		height: 15px;
+		background: #9EFD88;
+	}
+</style>
 <body>
-	<h1 class="text-uppercase text-primary">Prueba</h1>
+	<h1 class="title text-uppercase text-primary">REGISTRO DE MOVIMIENTOS</h1>
+	<h1 class="title">{{comite_escuela.escuela}}</h1>
+	
+	<table>
+		<thead>
+			<tr>
+				<th width="400">FONDO</th>
+				<th>FECHA</th>
+				<th>CICLO</th>
+				<th>TIPO</th>
+				<th>MONTO</th>
+				<th>OBSERVACIONES</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for m in movimientos %}
+				<tr class="{% if m.tipoMovimiento == True %} in {% else %} o {% endif %}">
+					<td>{{m.fondo}}</td>
+					<td align="center">{{m.fecha}}</td>
+					<td align="center">{{m.ciclo}}</td>
+					<td align="center"><b>{{m.tipo}}</b></td>
+					<td align="center"><b>{{m.valor}}</b></td>
+					<td>{{m.observaciones}}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 	<!--Scripts-->
     <script src="{% static 'core/js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'core/vendor/jquery/jquery.min.js' %}"></script>
