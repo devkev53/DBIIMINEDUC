@@ -7,6 +7,8 @@ from django.core.exceptions import ValidationError
 
 from escuela.models import Escuela, Comite
 from padre.models import PadreFamilia
+import datetime
+
 # Create your models here.
 
 PUESTOS_CHOICES = [
@@ -101,12 +103,12 @@ class MovimientoFondo(models.Model):
     ''' Llamamos a una funcion en la base de datos,
         y evaluamos si existe un movimiento de deposito de este año '''
     def validar_deposito_sql(self):
-        dato = 0
         result = False
-        with connection.cursor() as cursor:
-            dato = cursor.callfunc("VALIDAR_ASIGNACION_COMITE", int, [self.fondo.id])
+        year = datetime.date.today().year
+        int(year)
+        # Obtenemos todos los movimientos para este fondo
         # Segun el procedimiento creado si retorna 0 es que existe uno o mas comites
-        if  dato == 1:
+        if  MovimientoFondo.objects.filter(fondo=self.fondo, tipo=True, ciclo=year).exists():
             result = True
         else:
             result = False

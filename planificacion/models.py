@@ -114,10 +114,10 @@ class PagoActividad(models.Model):
         saldo = fondo.saldo
         dato = 0
         result = False
-        with connection.cursor() as cursor:
-            dato = cursor.callfunc("VALIDAR_PAGO_ACTIVIDAD", int, [saldo, self.valor, fondo.pk])
+        #with connection.cursor() as cursor:
+        #    dato = cursor.callfunc("VALIDAR_PAGO_ACTIVIDAD", int, [saldo, self.valor, fondo.pk])
         # Segun el procedimiento creado si retorna 0 es que existe uno o mas comites
-        if  dato == 1:
+        if  saldo < self.valor:
             result = True
         else:
             result = False
