@@ -1,0 +1,93 @@
+{% load widget_tweaks %}
+{% load static %}
+<style>
+	.new_add{
+		border-left: 3px solid #02B012;
+		border-bottom: 3px solid #02B012;
+	}
+	.edit{
+		border-left: 3px solid #FF9A23;
+	}
+</style>
+<div class="modal-dialog shadow">
+	<div class="modal-content new_add">
+		<form method="POST" role="form" class="form-group" id="asignacionForm">{%csrf_token%}
+			<div class="card">
+
+				<div class="card-header">
+					<h5 class="text-uppercase text-warning">
+						<span class="text-warning fas fa-coins mr-2"></span>
+						<b>Asiganar Capital al Fondo</b>
+					</h5>
+				</div>
+
+				<div class="card-body">
+					<div class="form-group row">
+					    <label for="inputEmail3" class="col-sm-4 col-form-label">Monto a Asignar:</label>
+					    <div class="col-sm-7">
+					      {% render_field form.valor class+="form-control" placeholder="Monto" %}
+					      {% render_field form.tipoMovimiento class+="form-control" %}
+					      {% render_field form.ciclo class+="form-control"  %}
+					    </div>
+					</div>
+
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+							    {% render_field form.observaciones class+="form-control" rows="4" placeholder="Observaciones de la Asignacion del Fondo" %}
+							</div>
+						</div>
+					</div>
+					{{form.fondo}}
+
+					<div class="row">
+						<div class="col d-flex justify-content-between">
+							<button type="submit" class="btn btn-success" id="guardar">Guardar</button>
+							<button onclick="return cerrar_modal()" type="submit" class="btn btn-danger">Cancelar</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	console.log('Fondo: '+id_fondo)
+	var anio = (new Date).getFullYear();
+	$('#id_tipoMovimiento').prop("checked", true);
+	$('#id_fondo').val(id_fondo);
+	$('#id_fondo').hide();
+	$('#id_ciclo').val(anio);
+	$('#id_tipoMovimiento').hide();
+	$('#id_ciclo').hide();
+	//$('#id_tipoMovimiento').hide();
+
+		$('#asignacionForm').submit(function(event) {
+			/* Act on the event */
+
+			event.preventDefault();
+			//alert('Enviaste el integrante')
+
+			// Serializamos la data para enviar el form data
+			var serializeData = $(this).serialize();
+
+			// Hacemos el llamado Post con ajax
+			$.ajax({
+				type: 'POST',
+				url: "{% url 'asignar' %}",
+				data: serializeData,
+				success: function(response){
+					cerrar_modal();
+					$('#saldoDiv').load(' #saldoDiv');
+				},
+				error: function(response){
+					var title = `<h3 class='Text-danger'><span class="fas fa-exclamation-circle"></span> Error</h3>`;
+					mensaje(title, 'Si ve este error es porque existe una asignacion al fondo de este año', 'red');
+					cerrar_modal();
+				}
+			})
+		});
+
+</script>

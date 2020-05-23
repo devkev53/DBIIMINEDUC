@@ -1,0 +1,238 @@
+{% load widget_tweaks %}
+{% load static %}
+<style>
+	.new_add{
+		border-left: 3px solid #02B012;
+	}
+	.edit{
+		border-left: 3px solid #FF9A23;
+	}
+</style>
+<div class="modal-dialog modal-lg shadow">
+	<div class="modal-content {% if object %} edit {% else %} new_add {% endif %}">
+			<div class="col-xl-12 col-md-12">
+
+				<form method="POST" role="form" class="form-group" id="integrante_form" data-muni-url="{% url 'crear_intengrante' %}" novalidate>{%csrf_token%}
+
+				<!-- Card Header -->
+				<div class="card mt-2	">
+					<div class="card-header">
+						<div class="tex-xs title_body {% if object %} text-warning {% else %} text-secondary {% endif %} font-weight-bold text-uppercase mb-1">
+							<div class="row container">
+								<div>
+									<span class="fas fa-user"></span>
+									{% if object %}
+										Editar
+									{% else %}
+										Nuevo
+									{% endif %}
+										 Integrante de Comite
+								</div>
+								<div class="ml-auto">
+									{% if object %}
+										<span class="ml-auto fas fa-plus text-warning"></span>
+									{% else %}
+										<span class="ml-auto fas fa-edit text-primary"></span>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Card Body -->
+					<div class="card-body">
+						<div class="row no-gutters aling-items-center">
+							<div class="col mr-2">
+								<div class="container">
+
+									<!--div id="search">
+										<h5 class="text-uppercase">Busce su integrante por DPI</h5>
+
+										<form method="GET" action="{% url 'padre_ajax' %}">
+											<div class="input-group mb-3 col-7">
+												<input type="text" class="form-control dpi_input" name="dpi" id="dpi_padre" placeholder="XXXX-XXXXX-XXXX" autocomplete="off">
+												<div class="input-group-append">
+													<input class="btn btn-outline-success" id="btn_searhc" type="submit" value="buscar">
+												</div>
+											</div>
+										</form>
+									</div-->
+
+									<h4 id="respuesta"></h4>
+
+									<div class="" id="collapseForm">
+
+										<div class="row mb-2">
+											<div class="col-12">
+												<div class="form-inline">
+												    {% render_field form.integrante.comite class+="form-control" %}
+												    {% render_field form.integrante.padre class+="form-control" %}
+												 </div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-6">
+												<div class="form-group">
+												    {% render_field form.persona.dpi class+="form-control" placeholder="Ingrese el DPI" autocomplete='off' %}
+												 </div>
+											</div>
+											<div class="col-6">
+												<div class="form-group">
+												    {% render_field form.integrante.puesto class+="form-control" autocomplete='off' %}
+												 </div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-6">
+												<div class="form-group">
+												    {% render_field form.persona.nombres class+="form-control" placeholder="Nombres" autocomplete='off' %}
+												 </div>
+											</div>
+											<div class="col-6">
+												<div class="form-group">
+												    {% render_field form.persona.apellidos class+="form-control" placeholder="Apellidos" autocomplete='off' %}
+												 </div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-6">
+												<div class="form-group">
+												    {% render_field form.persona.fecha_nac class+="form-control" placeholder="Fecha de Nacimiento" autocomplete='off' %}
+												 </div>
+											</div>
+											<div class="col-6">
+												<div class="form-group">
+												    {% render_field form.persona.direccion class+="form-control" placeholder="Direccion" autocomplete='off' %}
+												 </div>
+											</div>
+										</div>
+
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Card Footer -->
+					<div class="card-footer">
+						<div class="row">
+							<div class="col d-flex justify-content-between">
+								<button type="submit" class="btn btn-success" id="guardar">Guardar</button>
+								<button onclick="return cerrar_modal()" type="submit" class="btn btn-danger">Cancelar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				</form>
+
+			</div>
+
+	</div>
+</div>
+
+<script>
+		$('#id_integrante-comite').val(id_comite);
+		$('#id_integrante-comite').hide();
+		$('#dpi_padre').mask('0000-00000-0000');
+		$('#id_persona-dpi').mask('0000-00000-0000');
+		$('#id_integrante-padre').val(1);
+		$('#id_integrante-padre').hide();
+		$('#btn_searhc').click(function(event) {
+			/* Act on the event */
+			var dpi = $('#dpi_padre').val();
+			var url = 'padre/';
+			if(dpi.length == 15 ){
+				event.preventDefault();
+				//alert('Buscando')
+				$.ajax({
+					type:'GET',
+					url: "{% url 'padre_ajax' %}",
+					data: {'dpi': dpi},
+					success: function(response){
+						var dato
+						var padre
+						$.each(response, function(i, item) {
+						    dato = item;
+						});
+						console.log(dato.length)
+						if(dato.length==1){
+							$.each(dato, function(i, item) {
+						    padre = item;
+							});
+							addIntegrante(true);
+							console.log(padre.length);
+							console.log(padre);
+							$('id_integrante-padre').val(padre);
+							$('#id_persona-dpi').val(padre.dpi);
+							$('#id_persona-dpi').prop("readonly",true);
+							$('#id_persona-nombres').val(padre.nombres);
+							$('#id_persona-apellidos').val(padre.apellidos);
+							$('#id_persona-fecha_nac').val(padre.fecha_nac);
+							$('#id_persona-direccion').val(padre.direccion);
+						}else{
+							addIntegrante();
+							$('#id_persona-dpi').val($('#dpi_padre').val());
+						};
+					}
+				})
+			}else{
+				event.preventDefault();
+				mensaje('Error','Ingresa un dato valido', 'red')
+			};
+		});
+		function addIntegrante(dato=false){
+			alert(dato);
+			var html
+			if(dato == false){
+				html = `
+					<span class="fas fa-exclamation-circle mr-2"></span>
+					No se encontro registro
+				`;
+				$('#respuesta').addClass('text-warning');
+				$('#respuesta').addClass('text-uppercase');
+				$('#respuesta').html(html);
+			}else if(dato==true){
+				html = `
+					<span class="fas fa-check-double mr-2"></span>
+					El Registro encontrado es:
+				`;
+				$('#respuesta').addClass('text-success');
+				$('#respuesta').addClass('text-uppercase');
+				$('#respuesta').html(html);
+			};
+			$('#div-collapse').hide();
+			$('#search').hide();
+			$('#collapseForm').collapse();
+		};
+
+		$('#integrante_form').submit(function(event) {
+			/* Act on the event */
+			event.preventDefault();
+			alert('Enviaste el integrante')
+
+			// Serializamos la data para enviar el form data
+			var serializeData = $(this).serialize();
+
+			// Hacemos el llamado Post con ajax
+			$.ajax({
+				type: 'POST',
+				url: "{% url 'crear_intengrante' %}",
+				data: serializeData,
+				success: function(response){
+					cerrar_modal();
+					$('#integrantes').load(' #integrantes');
+				},
+				error: function(response){
+					var title = `<h3 class='Text-danger'><span class="fas fa-exclamation-circle"></span> Error</h3>`
+					mensaje(title, 'Verifique los datos', 'red')
+				}
+			})
+		});
+		console.log(id_comite);
+
+</script>

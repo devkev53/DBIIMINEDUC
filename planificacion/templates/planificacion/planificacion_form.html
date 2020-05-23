@@ -1,0 +1,67 @@
+<div class="modal-dialog shadow">
+	<div class="modal-content">
+
+		<form id="createPlanform" method="POST" action="{% url 'add_planificacion' %}">{% csrf_token %}
+			<!-- Card Body -->
+			<div class="card-body">
+				<div class="row no-gutters aling-items-center">
+					<div class="col mr-2">
+						<div class="container">
+							<div class="row text-uppercase text-primary">
+								<p><span class="fas fa-exclamation-circle text-uppercase mr-2" style="font-size:26px"></span>Se creara una Planificacion Correspondiente al Ciclo: <b class="ciclo"></b></p>
+								<div id="form">
+									{{form}}
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+
+			<!-- Card Footer -->
+			<div class="card-footer">
+				<div class="row">
+					<div class="col d-flex justify-content-between">
+						<button id="delete" type="submit" class="btn btn-success text-white" value="">Sí, Estoy Seguro</button>
+						<button onclick="return cerrar_modal()" class="btn btn-danger">Cancelar</button>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</div>
+
+</div>
+
+<script>
+	var anio = (new Date).getFullYear();
+	$('.ciclo').text(anio);
+	$('#id_ciclo').val(anio);
+	$('#id_comite').val(id_comite);
+	$('#id_descripcion').val(`Planificacion correspondiente al ciclo ` + anio +
+		` para uso de actividades escolares, artisticas y culturales de `+ escuela);
+	$('#form').hide();
+	$('#createPlanform').submit(function(event) {
+		/* Act on the event */
+		event.preventDefault();
+
+		// Serializamos la data para enviar el form data
+		var serializeData = $(this).serialize();
+
+		// Hacemos el llamado Post con ajax
+		$.ajax({
+			type: 'POST',
+			url: "{% url 'add_planificacion' %}",
+			data: serializeData,
+			success: function(response){
+				cerrar_modal();
+				mensaje('Exito', 'Se creo una nueva Planificación', 'green')
+				window.location.reload();
+			},
+			error: function(response){
+				var title = `<h3 class='Text-danger'><span class="fas fa-exclamation-circle"></span> Error</h3>`
+				mensaje(title, 'Verifique los datos', 'red')
+			}
+		})
+	});
+</script>

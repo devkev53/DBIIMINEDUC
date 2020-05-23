@@ -1,0 +1,162 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<style>
+	.part-table{
+		border-right: 1px solid gray;
+	}
+	.fila-fondo{
+		border-bottom: 1px solid gray;	
+	}
+	a.add_comite_user{
+		text-decoration: none;
+	}
+	a.add_comite_user:hover{
+		font-weight: bold;
+	}
+	a.text-success:hover{
+		text-decoration: none;
+	}
+	.btn-xl{
+		border-radius: 25px;
+	}
+</style>
+{% for c in comite  %}
+	{% if c.escuela == perfil.escuela %}
+	<div class="container">
+
+		<!-- Alerta Usuario -->
+		{% if usuario %}
+		{% else %}
+			<div id="alertUserComite">
+				<div class="alert alert-danger d-flex text-uppercase" role="alert">
+					No se ha creado un usuario para este comite..!
+					<a id="addComiteUser" onclick="return abrir_modal('{% url 'create_comite_usuario' %}')" class="ml-auto text-danger add_comite_user">
+						<span class="fas fa-user-plus mr-2"></span>
+						Crear Usuario
+					</a>
+				</div>
+			</div>
+		{% endif %}
+
+		<div class="card border-primary mb-3">
+			<div class="card-header text-primary">
+				<span class="fas fa-users mr-2"></span>
+				{{c.nombre}}
+			</div>
+			<div class="card-body">
+			    <div class="container">
+			    	<div class="row">
+
+			    		<!-- Division parte Derecha Integrantes -->
+			    		<div class="col-8 part-table">
+			    			<div class="container">
+			    				<div class="row">
+			    					<div>
+			    						<h5 class="text-uppercase">
+			    							<span class="text-info fas fa-users mr-2"></span>
+			    							<b>Integrantes  del Comite</b>
+			    						</h5>
+			    					</div>
+			    					<div class="ml-auto">
+			    						<b>
+			    						<a class="text-success" id="addIntegrante" onclick="return abrir_modal('{% url 'crear_intengrante' %}')" href="" data-comite="{{c.id}}">
+			    							<span class="icon fa fa-plus-square mr-2"></span>
+			    							Agregar integrante
+			    						</a>
+			    						</b>
+			    					</div>
+			    				</div>
+			    				<table id="integrantes" class="table table-sm table-striped" style="width:100%">
+			    					<thead>
+			    					    <tr class="text-uppercase">
+			    					        <th>Puesto</th>
+			    					        <th>Nombre</th>
+			    					        <th class="" style="text-align:center;">Editar / Eliminar</th>
+			    					    </tr>
+			    					</thead>
+			    					<tbody>
+			    						{% for i in integrantes %}
+			    						<tr class="text-uppercase">
+			    					        <td>{{i.retornarPuesto}}</td>
+			    					        <td>{{i.padre}}</td>
+			    					        <td style="text-align:center;">
+			    				                <button class="btn btn-danger btn-xl mr-2"
+			    				                    onclick="return abrir_modal('{% url 'eliminar_intengrante' i.pk %}')">
+			    				                        <span class="fas fa-trash-alt"></span>
+			    				                </button>
+			    				            </td>
+			    					    </tr>
+			    					    {% endfor %}
+			    					</tbody>
+			    				</table>
+			    			</div>
+			    		</div>
+
+			    		<!-- Division parte Iquierda -->
+			    		<div class="col-4">
+
+			    			<!-- Division de Fondo -->
+			    			<div class="row fila-fondo mb-4" id="saldoDiv">
+			    				<div class="container">
+			    					<h5 class="text-uppercase">
+			    						<b>
+			    							<span id="fondo_span" class="text-uppercase text-warning fas fa-coins mr-2" data-pk="{{fondo.pk}}"></span>
+			    							Fondo Ciclo: {{fondo.ciclo}}
+			    						</b>
+			    					</h5>
+			    					<div class="d-flex justify-content-center">
+			    						<h5 class="text-uppercase">
+			    							<button onclick="return abrir_modal('{% url 'asignar' %}')" class="btn btn-warning text-uppercase" id="asignarFondo">
+												<span class="fas fa-money-bill-alt mr-2"></span>
+			    								Asignar
+			    							</button>
+			    							<a download="RegistroMovimientos.pdf" href="{% url 'pdf_movimientos' %}" class={% if movimientos %} "text-uppercase btn btn-secondary" {% else %} "text-uppercase disabled btn"{% endif %}>
+												<span class="fas fa-tasks mr-2"></span>
+			    								Ver Registro
+			    							</a>
+			    						</h5>
+			    					</div>
+			    					<div class="container">
+			    						<h4 class="text-right">Saldo: <b>Q. {{fondo.saldo}}</b></h4>
+			    					</div>
+			    				</div>
+			    			</div>
+
+			    			<!-- Division de Planificacion -->
+			    			<div class="row">
+			    				<div class="container">
+			    					<h5 class="text-uppercase">
+			    						<b>
+			    							<span class="text-info far fa-list-alt mr-2"></span>
+			    							Planificacion
+			    						</b>
+			    					</h5>
+			    					<div class="d-flex justify-content-center">
+			    						<h5 class="text-uppercase">
+			    							<button class=" {% if planificacion %} btn btn-info {% else %} disabled btn btn-dark{% endif %}btn btn-lg text-uppercase">
+												<span class="fas fa-file-download mr-2"></span>
+			    								Descargar
+			    							</button>
+			    						</h5>
+			    					</div>
+			    				</div>
+			    			</div>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+{% endfor %}
+{% endblock content %}
+
+{% block js_block %}
+<script>
+    $(document).ready( function () {
+
+
+    });
+</script>
+{% endblock js_block %}

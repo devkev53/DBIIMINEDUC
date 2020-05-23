@@ -1,0 +1,431 @@
+body {
+    background: #fff;
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.foot {
+    background: #262a34;
+    background-color: #262a34;
+}
+
+/* -- Super Barra Horizontal --*/
+.robot-nav {
+    background: #12192C
+}
+
+/* -- Barra Lateral --*/
+
+.barra-lateral {
+    background: #262a34;
+    color: #fff;
+    min-width: 220px;
+    min-height: 100vh;
+    padding: 0;
+}
+
+.barra-lateral a {
+    color: #fff;
+}
+
+/* -- Logo --*/
+.barra-lateral .logo {
+    background: #DF2A2A;
+    margin-bottom: 4px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+
+.barra-lateral .logo h2 {
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif;
+    padding: 20px, 0;
+    text-align: center;
+    font-weight: 300;
+    margin: 0;
+}
+
+/* -- Menu --*/
+
+.barra-lateral .menu a {
+    display: block;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1)
+}
+
+a.active{
+    background: #13161D;
+    color: #A03030;
+    pointer-events: none;
+}
+
+.barra-lateral .menu a:hover {
+    background: #7A1515;
+    text-decoration: none;
+}
+
+.barra-lateral .menu a i {
+    margin-right: 20px;
+    font-weight: normal;
+}
+
+/* -- PRODUCTOS UL -- */
+
+.more ul {
+    background: #f2f2f2;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.more a {
+    padding-left: 20px;
+    min-width: 250px;
+    color: #D54040
+}
+
+a.act {
+    padding-left: 20px;
+    min-width: 250px;
+    color: #850808;
+    background: #CCCCCC;
+    font-weight: 700;
+    border-radius: 50px 5px;
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+}
+
+.more a:hover {
+    background: rgba(0,0,0,0.2);
+    font-weight: 700;
+    border-top: 1px;
+    border: solid 3px #000;
+    border-radius: 50px 5px;
+}
+
+/* -- PRODUCTOS LISTADO -- */
+
+div.prod {
+    display: inline-table;
+}
+
+div.prod.noProd:hover {
+    display: inline-table;
+}
+
+a.none {
+    text-decoration: none;
+    color: #000;
+}
+.prod {
+    max-width: 250px;
+    min-width: 250px;
+    max-height: 330px;
+    height: 700px;
+    border-top: none;
+    border-left: solid 5px rgba(0,0,0,0.1);
+    border-right: solid 5px rgba(0,0,0,0.1);
+    border-radius: 55px 10px;
+    padding-top: 10px;
+    transition: 0.5s;
+}
+
+.prod:hover {
+    border-left: solid 10px rgba(151,25,25,0.5);
+    border-right: solid 10px rgba(151,25,25,0.5);
+}
+
+.prod.noProd:hover {
+    border-left: solid 5px rgba(0,0,0,0.1);
+    border-right: solid 5px rgba(0,0,0,0.1);
+}
+
+.prod img {
+    display: block;
+    margin: auto;
+    width: 170px;
+    height: 170px;
+    transition: .5s;
+    border-radius: 25px;
+}
+.prod img.robot:hover {
+    height: 50px;
+
+}
+
+div.prod:hover>img {
+    display: block;
+    margin: auto;
+    width: 190px;
+    height: 190px;
+    max-width: 18rem;
+}
+
+div.noProd:hover>img {
+    display: block;
+    margin: auto;
+    width: 170px;
+    height: 170px;
+    transition: .5s;
+    border-radius: 25px;
+}
+
+img.robot {
+    height: 50px;
+}
+
+.prod img:hover {
+    display: block;
+    margin: auto;
+    width: 170px;
+    height: 170px;
+    transition: .5s;
+    border-radius: 25px;
+}
+.noProd img:hover {
+    div.prod.noProd:hover>img. {
+    display: block;
+    margin: auto;
+    width: 170px;
+    height: 170px;
+    transition: .5s;
+    border-radius: 25px;
+}
+}
+
+div.prod:hover>h6 {
+    font-size: 30px;
+}
+
+div.prod.noProd:hover>h6 {
+    font-size: 16px;
+
+}
+.prod h5, h6 {
+    text-align: center;
+    transition: .5s;
+}
+
+.prod h6 {
+    color: #616AAD;
+    font-weight: 700;
+}
+
+/* -- PRODUCTOS FORMULARIO INGRESO-- */
+div.prod1 {
+    margin-left: -5px;
+}
+
+img.img-form {
+    border-radius: 30px;
+    width: 100px;
+    height: 100px;
+}
+
+.form span {
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.form input {
+    min-width: 210px;
+    max-width: 210px;
+}
+
+a.prod1 {
+    text-decoration: none;
+    color: #000;
+}
+
+
+/* -- ICONOS DEL FOOTER -- */
+div.foot {
+    padding-top: 10px;
+    padding-bottom: 10px
+}
+a.face {
+    color: #fff;
+    text-decoration: none;
+    transition: .5s;
+}
+
+a.face:hover span:hover{
+    color: #4C60DA;
+    font-size: 30px;
+    padding-bottom: 50px;
+}
+
+a.tw {
+    color: #fff;
+    text-decoration: none;
+    transition: .5s;
+}
+
+a.tw:hover span:hover{
+    color: #17AAFF;
+    font-size: 30px;
+    padding-bottom: 50px;
+}
+
+a.you {
+    color: #fff;
+    text-decoration: none;
+    transition: .5s;
+}
+
+a.you:hover span:hover{
+    color: #FF1717;
+    font-size: 30px;
+    padding-bottom: 50px;
+}
+/* -- Template HOME --*/
+
+.home  {
+    color: white;
+    background: #DF2A2A;
+    padding-top: 1px;
+}
+
+.home h4 {
+    text-align: right;
+    padding-right: 15px;
+}
+
+/* -- Template Ingresos --*/
+
+div.ingresos {
+    color: #fff;
+    background:linear-gradient(rgba(15, 92, 92, 0.6), rgba(15, 92, 92, 0.6)),
+    url('../img/calculator-1680905_960_720.jpg') no-repeat center center; background-size: cover;
+    min-height: 100vh;
+}
+
+div.egresos {
+    color: #fff;
+    background:linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url('../img/calculator-1680905_960_720.jpg') no-repeat center center; background-size: cover;
+    min-height: 100vh;
+}
+
+div.dos {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: -6px;
+    border: solid 3px;
+    border-radius: 15px;
+    background:linear-gradient(rgba(223, 42, 42, 0.6), rgba(223, 42, 42, 0.6));
+}
+
+div.tres {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 6px;
+    border: solid 3px;
+    border-radius: 15px;
+    background:linear-gradient(rgba(38, 42, 52, 0.8), rgba(38, 42, 52, 0.8));
+}
+
+hr.h1 {
+    border: solid 1px;
+    border-color: black;
+}
+
+.no-btn {
+    background: none;
+    border: none;
+}
+
+.no-btn img:hover{
+    width: 30px;
+}
+
+/* -- EXTILOS EXTRAS DEL INICIO -- */
+
+.inicio {
+    background: ;
+}
+
+div.pub {
+    min-height: 100vh;
+}
+
+div.home1 {
+    min-height: 100vh;
+    margin-right:  -15px;
+    margin-left: -15px;
+    background:
+    url('../img/bgR.jpg') no-repeat center center; background-size: cover;
+}
+
+div.CXD {
+    margin-top: 5px;
+}
+
+img.CXD {
+    border-radius: 25px;
+}
+
+div.stat {
+    min-height: 100vh;
+}
+
+canvas#canvas {
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+.reporte{
+    align-self: center;
+    width: 65%;
+}
+
+.reporte a{
+    text-decoration: none;
+    color: #fff;
+    align-self: center;
+}
+
+.reporte tbody{
+    background:linear-gradient(rgba(84,14,14, 0.2), rgba(84,14,14, 0.9));
+}
+
+.reporte tr.tot {
+    background: rgba(84,14,14)
+}
+
+.repOpciones a{
+    color: #fff;
+    border-right: solid 2px;
+    border-color: #fff;
+}
+.repOpciones a:hover{
+    color: #262a34;
+    border-right: solid 2px;
+    border-color: #262a34;
+    font-weight: 700;
+}
+
+.repOpciones li{
+    width: 80px;
+    padding-right: 60px;
+    padding-bottom: 1px;
+}
+
+.detail div {
+    margin-top: 50px;
+}
+.detail img {
+    margin-left: 5px;
+    width: 350px;
+    border-radius: 15px;
+}
+
+div.info {
+    margin-top: 100px;
+}
+.info hr {
+    border: solid 1px;
+    border-color: #fff;
+}

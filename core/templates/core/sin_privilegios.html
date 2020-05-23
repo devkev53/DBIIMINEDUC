@@ -1,0 +1,46 @@
+{% extends "core/base.html" %}
+
+{% load static %}
+{% block content %}
+
+<style>
+	div.card{
+		border-left: 5px solid red;
+		border-bottom: 3px solid red;
+		box-shadow: 2px 2px 10px;
+	}
+</style>
+	<div class="container d-flex justify-content-center mt-4">
+		<div class="col-xl-6 col-md-6 mb-6">
+			<div class="card shadow h-100">
+				<div class="card-header">
+					<div class="text-xs font-weight-bold text-primary text-uppercase m-1">
+						<span class="fas fa-ban mr-2 text-danger h2"></span>El Usuario: <span class="text-danger">{{user.username}}</span>
+					</div>
+				</div>
+				<div class="card-body">
+
+					<div class="row alig-items-center">
+						<div class="col mr-2">
+							<div class="row">
+								<div class="container">
+									<span class="text-danger mr-1">No tiene suficientes privilegios </span> <span>para cargar la opcion solicitada.</span>
+									<br>
+									<small>Para poder acceder, debes loguearte con un usuario con privilegios necesarios</small>
+								</div>
+							</div>
+							<div class="dropdown-divider"></div>
+
+							<div class="row">
+								 <div class="col d-flex justify-content-between">
+								 	<a href="{% url 'home' %}" class="btn btn-success"><span class="fas fa-home mr-2"></span>Ir a Inicio</a>
+								 	<a href="{% url 'login' %}" class="btn btn-warning"><span class="fas fa-sign-in-alt mr-2"></span>Ingresar con otro Usuario</a>
+								 </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

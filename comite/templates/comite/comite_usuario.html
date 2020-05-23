@@ -1,0 +1,126 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<style>
+	.part-table{
+		border-right: 1px solid gray;
+	}
+	.fila-fondo{
+		border-bottom: 1px solid gray;	
+	}
+	a.add_comite_user{
+		text-decoration: none;
+	}
+	a.add_comite_user:hover{
+		font-weight: bold;
+	}
+	a.text-success:hover{
+		text-decoration: none;
+	}
+	.btn-xl{
+		border-radius: 25px;
+	}
+</style>
+
+	<div class="container">
+
+		<div class="card border-primary mb-3">
+			<div class="card-header text-primary">
+				<span class="fas fa-users mr-2"></span>
+				{{comite.nombre}}
+			</div>
+			<div class="card-body">
+			    <div class="container">
+			    	<div class="row">
+
+			    		<!-- Division parte Derecha Integrantes -->
+			    		<div class="col-8 part-table">
+			    			<div class="container">
+			    				<div class="row">
+			    					<div>
+			    						<h5 class="text-uppercase">
+			    							<span class="text-info fas fa-users mr-2"></span>
+			    							<b>Integrantes  del Comite</b>
+			    						</h5>
+			    					</div>
+			    				</div>
+			    				<table id="integrantes" class="table table-sm table-striped" style="width:100%">
+			    					<thead>
+			    					    <tr class="text-uppercase">
+			    					        <th>Puesto</th>
+			    					        <th>Nombre</th>
+			    					    </tr>
+			    					</thead>
+			    					<tbody>
+			    						{% for i in integrantes %}
+			    						<tr class="text-uppercase">
+			    					        <td>{{i.retornarPuesto}}</td>
+			    					        <td>{{i.padre}}</td>
+			    					    </tr>
+			    					    {% endfor %}
+			    					</tbody>
+			    				</table>
+			    			</div>
+			    		</div>
+
+			    		<!-- Division parte Iquierda -->
+			    		<div class="col-4">
+
+			    			<!-- Division de Fondo -->
+			    			<div class="row fila-fondo mb-4">
+			    				<div class="container">
+			    					<h5 class="text-uppercase">
+			    						<b>
+			    							<span class="text-warning fas fa-coins mr-2"></span>
+			    							Fondo CICLO: {{fondo.ciclo}}
+			    						</b>
+			    					</h5>
+			    					<div class="d-flex justify-content-center">
+			    						<h5 class="text-uppercase">
+			    							<a download="RegistroMovimientos.pdf" href="{% url 'pdf_movimientos' %}" class={% if movimientos %} "text-uppercase btn btn-secondary" {% else %} "text-uppercase disabled btn"{% endif %}>
+												<span class="fas fa-tasks mr-2"></span>
+			    								Ver Registro
+			    							</a>
+			    						</h5>
+			    					</div>
+			    					<div class="container" id="saldoDiv">
+			    						<h4 class="text-right">Saldo: <b>Q. {{fondo.saldo}}</b></h4>
+			    					</div>
+			    				</div>
+			    			</div>
+
+			    			<!-- Division de Planificacion -->
+			    			<div class="row">
+			    				<div class="container">
+			    					<h5 class="text-uppercase">
+			    						<b>
+			    							<span class="text-info far fa-list-alt mr-2"></span>
+			    							Planificacion
+			    						</b>
+			    					</h5>
+			    					<div class="d-flex justify-content-center">
+			    						<h5 class="text-uppercase">
+			    							<button class=" {% if planificacion %} btn btn-info {% else %} disabled btn btn-dark{% endif %}btn btn-lg text-uppercase">
+												<span class="fas fa-file-download mr-2"></span>
+			    								Descargar
+			    							</button>
+			    						</h5>
+			    					</div>
+			    				</div>
+			    			</div>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}
+
+{% block js_block %}
+<script>
+    $(document).ready( function () {
+
+
+    });
+</script>
+{% endblock js_block %}

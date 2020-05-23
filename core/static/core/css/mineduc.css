@@ -1,0 +1,37 @@
+body{
+	height: 100%;
+	background: #eee;
+}
+.bandera{
+	width: 100%;
+	background-image: url("../img/barra-bandera.png");
+	box-shadow: 5px 5px 8px #888888;
+}
+.title_body{
+	font-family: 'Libre Baskerville', serif;
+	text-shadow: 5px 5px 5px #FFFFFF;
+}
+.title{
+	font-family: 'Libre Baskerville', serif;
+	color: #3F3F3F;
+	font-size: 20px;
+	text-shadow: 5px 5px 5px #FFFFFF;
+}
+.select_dpto{
+	background: #D4D4D4;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+}
+.btn-circle.btn-xl {
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    font-size: 12px;
+    line-height: 1.33;
+}
+.foot{
+	border-top: 2px solid #69838A;
+	color: white;
+	background-color: #0094ff;
+	width: 100%;
+}

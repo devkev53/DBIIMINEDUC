@@ -1,0 +1,178 @@
+{% load widget_tweaks %}
+{% load static %}
+<style>
+	.new_add{
+		border-left: 3px solid #02B012;
+	}
+	.edit{
+		border-left: 3px solid #FF9A23;
+	}
+</style>
+<div class="modal-dialog modal-lg shadow">
+	<div class="modal-content {% if object %} edit {% else %} new_add {% endif %}">
+		{% if object %}
+			<form method="POST" role="form" class="form-group" action="{% url 'actualizar_escuela' escuela.pk %}" id="escuale_form" data-muni-url="{% url 'ajax_load_muni' %}" novalidate>
+		{% else %}
+			<form method="POST" role="form" class="form-group" action="{% url 'create_escuela_usuario' %}" id="escuale_form" data-muni-url="{% url 'ajax_load_muni' %}" novalidate>
+		{% endif %}
+			{%csrf_token%}
+			<div class="col-xl-12 col-md-12">
+
+				<!-- Card Header -->
+				<div class="card mt-2	">
+					<div class="card-header">
+						<div class="tex-xs title_body {% if object %} text-warning {% else %} text-success {% endif %} font-weight-bold text-uppercase mb-1">
+							<div class="row container">
+								<div>
+									<span class="mr-2 fas fa-school"></span>
+									{% if object %}
+										Editar
+									{% else %}
+										Registrar
+									{% endif %}
+										<span class="fas fa-user"></span>
+										 Usuario de Escuela
+								</div>
+								<div class="ml-auto">
+									{% if object %}
+										<span class="ml-auto fas fa-plus text-warning"></span>
+									{% else %}
+										<span class="ml-auto fas fa-edit text-primary"></span>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Card Body -->
+					<div class="card-body">
+						<div class="row no-gutters aling-items-center">
+							<div class="col mr-2">
+								<div class="container">
+									<div class="row mb-2">
+										<div class="col-12">
+											<div class="form-inline">
+											    {% render_field form.codigo class+="form-control" display="none" %}
+											    {% render_field form.fecha_crea class+="form-control" %}
+											 </div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-6">
+											<div class="form-group">
+											    {% render_field form.user.username class+="form-control" placeholder="Nombre de Usuario" autocomplete='off' %}
+											 </div>
+										</div>
+										<div class="col-6">
+											<div class="form-group">
+											    {% render_field form.user.email class+="form-control" placeholder="Correo Electronico" autocomplete='off' %}
+											 </div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-6">
+											<div class="form-group">
+											    {% render_field form.user.password1 class+="form-control" placeholder="Contraseña" autocomplete='off' %}
+											 </div>
+										</div>
+										<div class="col-6">
+											<div class="form-group">
+											    {% render_field form.user.password2 class+="form-control" placeholder="Confirmar Contraseña" autocomplete='off' %}
+											 </div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-6">
+											<div class="form-group">
+											    {% render_field form.user.first_name class+="form-control" placeholder="Nombres" autocomplete='off' %}
+											 </div>
+										</div>
+										<div class="col-6">
+											<div class="form-group">
+											    {% render_field form.user.last_name class+="form-control" placeholder="Apellidos Contraseña" autocomplete='off' %}
+											 </div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-6">
+											<div class="form-group">
+											    {% render_field form.usuario.escuela class+="form-control" %}
+											 </div>
+										</div>
+										<div class="col-6">
+											<div class="form-group">
+											    {% render_field form.usuario.usuario class+="form-control" %}
+											 </div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Card Footer -->
+					<div class="card-footer">
+						<div class="row">
+							<div class="col d-flex justify-content-between">
+								<button type="submit" class="btn btn-success" id="guardar">Guardar</button>
+								<button onclick="return cerrar_modal()" type="submit" class="btn btn-danger">Cancelar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</form>
+
+	</div>
+</div>
+
+<script>
+		// Ajax Agregar Usuario
+		$('#escuale_form').submit(function(event) {
+			/* Act on the event */
+			// Prevenimos que se envie el formulario
+			event.preventDefault();
+			//mensaje('Haz echo click', 'green');
+			// Serializamos la data para enviar el form data
+			var serializeData = $(this).serialize();
+
+			// Hacemos el llamado Post con ajax
+			$.ajax({
+				type: 'POST',
+				url: "{% url 'create_escuela_usuario' %}",
+				data: serializeData,
+				success: function(response){
+					cerrar_modal();
+					$('#escuelas_table').load(' #escuelas_table');
+				},
+				error: function(response){
+					var title = `<h3 class='Text-danger'><span class="fas fa-exclamation-circle"></span> Error</h3>`
+					mensaje(title, 'Verifique los datos', 'red')
+				}
+			})
+		});
+
+		console.log(addUserIdEscuela);
+		$('#id_user-username').focus(function(event) {
+			/* Act on the event */
+		});
+		$('#id_user-username').blur(function(event) {
+			/* Act on the event */
+			$('#id_user-email').val($(this).val()+'@gmail.com')
+		});
+		$('#id_user-first_name').hide();
+		$('#id_user-first_name').val('Escuela Oficial');
+		$('#id_user-last_name').hide();
+		$('#id_user-last_name').val('Mineduc');
+		$('#id_usuario-usuario').hide();
+		$('#id_usuario-usuario').val(1);
+		$('#id_usuario-escuela').hide();
+		$('#id_usuario-escuela').val(addUserIdEscuela);
+
+</script>

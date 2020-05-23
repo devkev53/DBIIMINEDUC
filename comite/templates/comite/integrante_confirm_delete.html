@@ -1,0 +1,94 @@
+<div class="modal-dialog shadow">
+	<div class="modal-content">
+
+		<form method="post">{% csrf_token %}
+			<!-- Card Body -->
+			<div class="card-body">
+							<div class="row no-gutters aling-items-center">
+								<div class="col mr-2">
+									<div class="container">
+										<div class="row">
+											<p><span class="fas fa-exclamation-circle text-warning mr-2" style="font-size:26px"></span>¿Está seguro de que quiere borrar: <b>"{{ object }}"</b>?</p>
+											<small class="text-justify"><span class="text-danger">
+												<span class="fas fa-exclamation text-danger mr-2"></span>Al hacer click en <b>Sí,</b> se eliminara el objeto <b>Integrante</b> y no se podra recuperar..!
+											</span></small>
+										</div>
+									</div>
+								</div>
+							</div>
+			</div>
+
+			<!-- Card Footer -->
+			<div class="card-footer">
+				<div class="row">
+					<div class="col d-flex justify-content-between">
+						<button id="delete" class="btn btn-warning text-white" value="">Sí, Estoy Seguro</button>
+						<button onclick="return cerrar_modal()" type="submit" class="btn btn-danger">Cancelar</button>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</div>
+
+</div>
+
+		<small class="text-danger">
+			{% if form.errors %}
+				{% for field in form %}
+					{% if field.errors %}
+						{% for error in field.errors  %}
+							<p>{{field.name}} {{error|escape}}</p>
+						{% endfor %}
+					{% endif %}
+				{% endfor %}
+
+				{% if form.non_field_errors %}
+					{% for error in field.errors  %}
+							{{error|escape}}
+						{% endfor %}
+				{% endif %}
+			{% endif%}
+		</small>
+
+	</div>
+</div>
+
+<script>
+
+	// Eliminar con ajax una escuela
+	var token = $('input[name=csrfmiddlewaretoken]').val();
+	$.ajaxSetup({
+		beforeSend: function(xhr, settings) {
+			if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))){
+				xhr.setRequestHeader("X-CSRFToken", token);
+			}
+		}
+	});
+
+		$("#delete").click(function(e){
+			e.preventDefault();
+			var id = "{{ object.pk }}";
+			var template = "{% url 'eliminar_intengrante' object.pk %}";
+			var data = {"id":id};
+			data = JSON.stringify(data);
+
+			$.ajax({
+                type: "POST",
+                url: template,
+                data: data,
+                beforeSend: function(xhr, settings){
+                	$.ajaxSettings.beforeSend(xhr, settings);
+                },
+                success: function(response){
+                    cerrar_modal();
+                    location.reload();
+                },
+                error: function(jqXHR, textStatus, errorThrow){
+                    console.log(textStatus, errorThrow);
+                    cerrar_modal();
+                }
+            });
+
+		});
+</script>

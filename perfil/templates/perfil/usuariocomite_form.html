@@ -1,0 +1,141 @@
+{% load widget_tweaks %}
+{% load static %}
+<style>
+	.new_add{
+		border-left: 3px solid #02B012;
+		border-bottom: 3px solid #02B012;
+	}
+	.edit{
+		border-left: 3px solid #FF9A23;
+	}
+</style>
+<div class="modal-dialog modal-lg shadow">
+	<div class="modal-content new_add">
+		<form method="POST" role="form" class="form-group" id="comiteUserForm">{%csrf_token%}
+			<div class="card">
+
+				<div class="card-header">
+					<h5 class="text-uppercase text-success">
+						<span class="fas fa-id-card mr-2"></span>
+						<b>Crear Usuario para el COMITE</b>
+					</h5>
+				</div>
+
+				<div class="card-body">
+
+					<div class="container">
+
+						<div class="container">
+							<h6 class="text-uppercase text-muted">Datos de Usuario</h6>
+							<hr>
+
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+									    {% render_field form.user.username class+="form-control" placeholder="Ingrese el nuevo Usuario" autocomplete='off' %}
+									 </div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+									    {% render_field form.user.email class+="form-control" placeholder="Ingrese el Correo Electronico" autocomplete='off' %}
+									 </div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+									    {% render_field form.user.password1 class+="form-control" type="password" placeholder="Contraseña" autocomplete='off' %}
+									 </div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+									    {% render_field form.user.password2 class+="form-control" type="password" placeholder="Confireme su Contraseña" autocomplete='off' %}
+									 </div>
+								</div>
+							</div>
+						</div>
+
+						<div class="container">
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+									    {% render_field form.user.first_name class+="form-control" placeholder="Nombres" autocomplete='off' %}
+									 </div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+									    {% render_field form.user.last_name class+="form-control" placeholder="Apellidos" autocomplete='off' %}
+									 </div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+									    {% render_field form.comiteUser.usuario class+="form-control" placeholder="Nombres" autocomplete='off' %}
+									 </div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+									    {% render_field form.comiteUser.comite class+="form-control" placeholder="Apellidos" autocomplete='off' %}
+									 </div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="row">
+						<div class="col d-flex justify-content-between">
+							<button type="submit" class="btn btn-success" id="guardar">Guardar</button>
+							<button onclick="return cerrar_modal()" type="submit" class="btn btn-danger">Cancelar</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	$('#id_user-first_name').val('Comite');
+	$('#id_user-first_name').hide();
+	$('#id_user-last_name').val('Usuario');
+	$('#id_user-last_name').hide();
+	$('#id_comiteUser-comite').val(id_comite);
+	$('#id_comiteUser-usuario').val(1);
+	$('#id_comiteUser-comite').hide();
+	$('#id_comiteUser-usuario').hide();
+
+	//$('#id_tipoMovimiento').hide();
+
+		$('#comiteUserForm').submit(function(event) {
+			/* Act on the event */
+
+			event.preventDefault();
+			alert('Enviaste el integrante')
+
+			// Serializamos la data para enviar el form data
+			var serializeData = $(this).serialize();
+
+			// Hacemos el llamado Post con ajax
+			$.ajax({
+				type: 'POST',
+				url: "{% url 'create_comite_usuario' %}",
+				data: serializeData,
+				success: function(response){
+					cerrar_modal();
+					$('#alertUserComite').load(' #alertUserComite');
+				},
+				error: function(response){
+					var title = `<h3 class='Text-danger'><span class="fas fa-exclamation-circle"></span> Error</h3>`;
+					mensaje(title, 'Si ve este error es porque existe un usuario con este nombre', 'red');
+					cerrar_modal();
+				}
+			})
+		});
+		console.log(id_comite);
+
+</script>

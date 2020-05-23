@@ -1,0 +1,136 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block load_files %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+{% endblock load_files %}
+
+{% block content %}
+<style>
+    .circle-btn{
+        border-radius: 25px;
+    }
+    .rows-table{
+        font-size: 14px;
+    }
+</style>
+    <div class="container">
+
+        <!-- Titulo y de seccion -->
+        <div class="row mb-1">
+            <div class="col">
+                <h3 class="title_body">Control de Escuelas - <span><b>MINEDUC</b></span></h3>
+            </div>
+        </div>
+
+        <!-- Escuelas Box -->
+        <div class="row mb-4">
+            <div class="col">
+
+                <!-- Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="container col d-flex justify-content-between">
+                            <h5 class="title_body"><b>Listado de Escuelas</b></h5>
+                            <a onclick="return abrir_modal('{% url 'create_escuela' %}')" class="btn btn-success text-white icon_link" id="registrar_escuela">
+                                <span class="icon fa fa-plus-square mr-2"></span>
+                                <b>Registrar Escuela</b>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="escuelas_table" class="stripe" style="width:100%">
+                                <thead>
+                                    <tr class="text-uppercase">
+                                        <th>Codigo</th>
+                                        <th>Nombre</th>
+                                        <th>Direccion</th>
+                                        <th>Departamento</th>
+                                        <th>Municipio</th>
+                                        <th>Fondo</th>
+                                        <th>Usuario</th>
+                                        <th style="text-align: center;">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for escuela in escuela  %}
+                                        <tr class="rows-table text-uppercase" id="{{escuela.codigo}}">
+                                            <td>{{escuela.codigo}}</td>
+                                            <td>{{escuela.nombre}}</td>
+                                            <td>{{escuela.direccion}}</td>
+                                            <td>{{escuela.departamento}}</td>
+                                            <td>{{escuela.municipio}}</td>
+
+                                            <td style="text-align: center;">
+                                                {% if escuela.existe_fondo_sql == True %}
+                                                    <span class="fas fa-check-circle text-success" style="font-size:30px"></span>
+                                                {% else %}
+                                                    <span class="fas fa-times text-danger" style="font-size:30px"></span>
+                                                {% endif %}
+                                            </td>
+
+                                            <td style="text-align: center;">
+                                                {% if escuela.existe_usuario_sql == True %}
+                                                    <span class="fas fa-user-check text-success" style="font-size:30px"></span>
+                                                {% else %}
+                                                    <a class="add_user" onclick="return abrir_modal('{% url 'create_escuela_usuario' %}')" href="" data-escuela="{{escuela.codigo}}">
+                                                        <span class="fas fa-user-times text-danger" style="font-size:30px"></span>
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+
+                                            <td style="text-align: center;">
+                                                <button class="btn btn-warning circle-btn mr-2"
+                                                    onclick="return abrir_modal('{% url 'actualizar_escuela' escuela.pk %}')">
+                                                        <span class="fas fa-pencil-alt"></span>
+                                                </button>
+                                                <button class="btn btn-danger circle-btn" onclick="return abrir_modal('{% url 'eliminar_escuela' escuela.pk %}')" id="btn_escuela_delete">
+                                                        <span class="fas fa-trash-alt"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <hr>
+
+    </div>
+{% endblock content %}
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+{% block js_block %}
+<script>
+    $(document).ready( function () {
+        $('#escuelas_table').DataTable( {
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "No se encontraron Registros - Lo sentimos..!",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay registros Disponibles",
+                "search": "Buscar:",
+                "infoFiltered": "(filtered from _MAX_ total records)",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "thousands": ",",
+                "decimal": "",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "scrollX": true
+        });
+    });
+</script>
+{% endblock js_block %}

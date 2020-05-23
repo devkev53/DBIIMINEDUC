@@ -1,0 +1,90 @@
+{% extends "core/base.html" %}
+
+{% block title %}
+	Home
+{% endblock title %}
+
+{% block content %}
+<div class="container mb-4">
+	<div class="row">
+
+		<div class="container d-flex">
+			<div class="izquierda col-6 p-4">
+				<div class="row arriba">
+					<div class="card border-secondary mb-3" style="min-height: 16rem;">
+						<div class="card-header">
+							<h5 class="text-uppercase">Bienvenido</h5>
+						</div>
+						<div class="card-body text-secondary">
+						    <small class="text-justify">Esta es la sección principal de esta aplicación web en donde encontraras información relevante sobre el funcionamiento de la misma, la aplicación cuenta con 3 tipos de usuarios los cuales son:</small>
+							<small>
+								<ul class="text-uppercase">
+									<b>
+										<li class="text-warning">Mineduc</li>
+										<li class="text-info">Escuelas</li>
+										<li class="text-success">Comite</li>
+									</b>
+								</ul>
+							</small>
+						</div>
+					</div>
+				</div>
+				<div class="row abajo">
+					<div class="card border-info" style="min-height: 16rem;">
+						<div class="card-header">
+							<h5 class="text-uppercase text-info"><b>Escuelas</b></h5>
+						</div>
+						<div class="card-body text-info">
+						    <b>
+						    	<small>
+						    		<p class="text-justify">Las escuelas se encargarán del registro del comité y sus integrantes, realizando de esta manera el registro de los padres de familia y puestos que tendrán en el comité.</p>
+						    		<p class="text-justify">De la misma manera registraran el fondo o dinero que fue asignado a cada comité, esta asignación es una por año. Solamente podrá verificar como ha sido el movimiento de los fondos que en un principio asignaron obteniendo un documento el cual presentara los distintos movimientos realizados.</p>
+						    	</small>
+						    </b>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="derecha col-6 p-4">
+				<div class="row arriba">
+					<div class="card border-warning mb-3" style="min-height: 16rem;">
+					  <div class="card-header">
+					  	<h5 class="text-uppercase text-warning"><b>Mineduc</b></h5>
+					  </div>
+					  	<div class="card-body text-warning">
+							<b>
+								<small>
+									<p class="text-justify">La función de este usuario es el gestionar las escuelas dígase la creación, la modificación o la eliminación de las escuelas en el sistema.</p>
+									<p class="text-justify">Así mismo luego de crear una escuela se podrá crear un usuario para que cada escuela tenga acceso a la aplicación, ya que las escuelas tienen otros roles y funciones dentro de esta.</p>
+								</small>
+							</b>
+					  	</div>
+					</div>
+				</div>
+				<div class="row abajo">
+					<div class="card border-success" style="min-height: 16rem;">
+					  <div class="card-header">
+					  	<h5 class="text-uppercase text-success"><b>Comite</b></h5>
+					  </div>
+					  	<div class="card-body text-success">
+							<b>
+								<small>
+									<p class="text-justify">En cuanto al comité este deberá ingresar su plan anual de actividades, en el que se debe detallar como será invertido el fondo, cada inversión debe ser justificada por medio de facturas que deberán ser ingresadas al sistema.</p>
+									<p class="text-justify">Por lo que se tendrá el control de gastos y cada actividad que se apruebe por el comité reflejara un movimiento en el fondo del mismo.</p>
+								</small>
+							</b>
+					  	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container mb-4">
+			<hr>
+			<small class="text-justify mb-4"><b>Esta aplicación esta desarrollada para ser usada en una pantalla grande por lo que se recomienda utilizar un computador para acceder a la aplicación y de esta manera obtener la mejor experiencia para el usuario</b></small>
+			<hr>
+		</div>
+
+	</div>
+</div>
+{% endblock content %}

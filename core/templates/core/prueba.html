@@ -1,0 +1,56 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+	<h1 class="text-primary">Esto es una prueba</h1>
+
+	<div>
+		<ul>
+		{% for depto in departamento %}
+		    <li>{{ depto }}</li>
+		    <ul>
+			    {% for muni in municipio %}
+			    	{% if muni.departamento.codigo == depto.codigo %}
+			    		<li>{{muni}}</li>
+			    	{% endif %}
+			    {% empty %}
+			    	<li>No se han registrado datos</li>
+			    {% endfor %}
+		    </ul>
+		{% empty %}
+		    <li>No se han registrado datos</li>
+		{% endfor %}
+	</ul>
+	</div>
+	<hr>
+	<div>
+		<table>
+			<caption>table title and/or explanatory text</caption>
+			<thead>
+				<tr>
+					<th>Codigo</th>
+					<th>Nombre</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for escuela in escuela %}
+					<tr>
+						<td>{{escuela.codigo}}</td>
+						<td>{{escuela.nombre}}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Prueba</title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+
+</body>
+</html>

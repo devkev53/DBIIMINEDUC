@@ -1,0 +1,123 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<style>
+	.activity{
+		border-left: 5px solid #00CE13;
+		border-bottom: 5px solid #00CE13;
+		box-shadow: 5px 5px 5px;
+	}
+</style>
+<div class="modal-dialog modal-lg shadow">
+	<div class="modal-content">
+
+		<div class="card activity">
+			<div class="card-header">
+				<h3 id="titladdeactividad" class="text-succes text-uppercase">
+					<span class="fas fa-puzzle-piece mr-2"></span>
+					Registrar nueva actividad al plan ciclo:
+				</h3>
+			</div>
+			<form id="createActividad" method="POST" action="{% url 'add_actividad' %}">{% csrf_token %}
+				<!-- Card Body -->
+				<div class="card-body ">
+					<div class="row no-gutters aling-items-center">
+						<div class="col">
+							<div class="container">
+								<div class="row text-uppercase text-primary">
+									<div id="form" class="col-12">
+
+										<div class="row">
+											<div class="col-4">
+												<div class="form-group">
+												    {% render_field form.tipo class+="form-control" placeholder="Ingrese el DPI" autocomplete='off' %}
+												 </div>
+											</div>
+											<div class="col-4">
+												<div class="form-group">
+													<input id="id_fecha_prog" name="fecha_prog" class="form-control" type="date">
+												 </div>
+											</div>
+											<div class="col-4">
+												<div class="form-group">
+												    {% render_field form.costo class+="form-control" placeholder="Costo aproximado" autocomplete='off' %}
+												 </div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+												    {% render_field form.descripcion rows="4" class+="form-control" autocomplete='off' placeholder="Agrege una descripcion de la actividad" %}
+												    {% render_field form.estado rows="4" class+="form-control" autocomplete='off' placeholder="Agrege una descripcion de la actividad" %}
+												    {% render_field form.plainficacion rows="4" class+="form-control" autocomplete='off' placeholder="Agrege una descripcion de la actividad" %}
+												 </div>
+											</div>
+										</div>
+									</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+
+				<!-- Card Footer -->
+				<div class="card-footer">
+					<div class="row">
+						<div class="col d-flex justify-content-around">
+							<button id="delete" type="submit" class="btn btn-success text-white" value="">Guardar</button>
+							<button onclick="return cerrar_modal()" class="btn btn-danger">Cancelar</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+</div>
+
+<script>
+	$('#id_plainficacion').val(id_plan);
+	$('#id_plainficacion').hide();
+	$('#id_estado').hide();
+	var title = $('#titladdeactividad').text() + anio
+	$('#titladdeactividad').text(title);
+
+	$('#createActividad').submit(function(event) {
+		/* Act on the event */
+		event.preventDefault();
+
+		// Serializamos la data para enviar el form data
+		var serializeData = $(this).serialize();
+
+		// Hacemos el llamado Post con ajax
+		$.ajax({
+			type: 'POST',
+			url: "{% url 'add_actividad' %}",
+			data: serializeData,
+			success: function(response){
+				cerrar_modal();
+				var msg = 'Se creo una nueva Actividad' + anio
+				$.confirm({
+				    title: 'Exito!',
+				    content: msg,
+				    buttons: {
+				        Ok: {
+				            text: 'Ok',
+				            btnClass: 'btn-green',
+				            keys: ['enter',],
+				            action: function(){
+				                window.location.reload();
+				            }
+				        }
+				    }
+				});
+			},
+			error: function(response){
+				var title = `<h3 class='Text-danger'><span class="fas fa-exclamation-circle"></span> Error</h3>`
+				mensaje(title, 'Verifique los datos', 'red')
+			}
+		})
+	});
+</script>

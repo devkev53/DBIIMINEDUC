@@ -1,0 +1,22 @@
+{% load widget_tweaks %}
+<form method="POST">{% csrf_token %}
+	{{form}}
+	<button type="submit">Enviar</button>
+</form>
+<small style="color:red">
+			{% if form.errors %}
+		        {% for field in forms %}
+		          {% if field.errors %}
+		            {% for error in field.errors %}
+		              	{{error|escape}}
+		            {% endfor %}
+		          {% endif %}
+		        {% endfor %}
+
+		        {% if form.non_field_errors %}
+		          {% for error in form.non_field_errors %}
+						{{error|escape}}
+		          {% endfor %}
+		        {% endif %}
+		      {% endif %}
+		</small>

@@ -1,0 +1,193 @@
+{% load widget_tweaks %}
+{% load static %}
+<style>
+	.new_add{
+		border-left: 3px solid #02B012;
+	}
+	.edit{
+		border-left: 3px solid #FF9A23;
+	}
+</style>
+<div class="modal-dialog modal-lg shadow">
+	<div class="modal-content {% if object %} edit {% else %} new_add {% endif %}">
+		{% if object %}
+			<form method="POST" role="form" class="form-group" action="{% url 'actualizar_escuela' escuela.pk %}" id="escuale_form" data-muni-url="{% url 'ajax_load_muni' %}" novalidate>
+		{% else %}
+			<form method="POST" role="form" class="form-group" action="{% url 'create_escuela'%}" id="escuale_form" data-muni-url="{% url 'ajax_load_muni' %}" novalidate>
+		{% endif %}
+			{%csrf_token%}
+			<div class="col-xl-12 col-md-12">
+
+				<!-- Card Header -->
+				<div class="card mt-2	">
+					<div class="card-header">
+						<div class="tex-xs title_body {% if object %} text-warning {% else %} text-primary {% endif %} font-weight-bold text-uppercase mb-1">
+							<div class="row container">
+								<div>
+									<span class="mr-2 fas fa-school"></span>
+									{% if object %}
+										Editar
+									{% else %}
+										Registrar
+									{% endif %}
+										 Escuela
+								</div>
+								<div class="ml-auto">
+									{% if object %}
+										<span class="ml-auto fas fa-plus text-warning"></span>
+									{% else %}
+										<span class="ml-auto fas fa-edit text-primary"></span>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Card Body -->
+					<div class="card-body">
+						<div class="row no-gutters aling-items-center">
+							<div class="col mr-2">
+								<div class="container">
+									<div class="row mb-2">
+										<div class="col-12">
+											<div class="form-inline">
+											    {% render_field form.codigo class+="form-control" display="none" %}
+											    {% render_field form.fecha_crea class+="form-control" %}
+											 </div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-12">
+											<div class="form-group">
+											    {% render_field form.nombre class+="form-control" placeholder="Nombre de la Escuela" autocomplete='off' %}
+											 </div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-12">
+											<div class="form-group">
+											    {% render_field form.direccion class+="form-control" placeholder="Dirección de la Escuela" autocomplete='off' %}
+											 </div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-6">
+											<div class="form-inline">
+												{% if object %}
+												{% else %}
+													<label id="label_depto" for="departamento" class="mr-2">Departamento: </label>
+													{% render_field form.departamento class+="form-control" style="width:100%" %}
+												{% endif %}
+											 </div>
+										</div>
+										<div class="col-6">
+											<div class="form-inline">
+												{% if object %}
+												{% else %}
+													<label id="label_muni" for="municipio" class="mr-2">Municipio: </label>
+											    	{% render_field form.municipio class+="form-control" style="width:100%" %}
+												{% endif %}
+											 </div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Card Footer -->
+					<div class="card-footer">
+						<div class="row">
+							<div class="col d-flex justify-content-between">
+								<button type="submit" class="btn btn-success" id="guardar">Guardar</button>
+								<button onclick="return cerrar_modal()" type="submit" class="btn btn-danger">Cancelar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</form>
+
+		<small class="text-danger">
+			{% if form.errors %}
+				{% for field in form %}
+					{% if field.errors %}
+						{% for error in field.errors  %}
+							<p>{{field.name}} {{error|escape}}</p>
+						{% endfor %}
+					{% endif %}
+				{% endfor %}
+
+				{% if form.non_field_errors %}
+					{% for error in field.errors  %}
+							{{error|escape}}
+						{% endfor %}
+				{% endif %}
+			{% endif%}
+		</small>
+
+	</div>
+</div>
+
+<script>
+		{% if object %}
+			$("#id_codigo").hide();
+			$("#guardar").click(function(event) {
+				/* Act on the event */
+				if(
+					$("#id_nombre").val().length <= 0 ||
+					$("#id_direccion").val().length <= 0
+					) {
+						event.preventDefault();
+						alert("Existen Campos Vacios")
+					}
+			});
+		{% else %}
+			$("#id_codigo").hide();
+			// Capturando el submit
+			$("#guardar").click(function(event) {
+				if(
+					$("#id_nombre").val().length <= 0 ||
+					$("#id_direccion").val().length <= 0 ||
+					$("#id_departamento").val() <= 0 ||
+					$("#id_municipio").val() <= 0) {
+					event.preventDefault();
+					$.alert({
+					    title: 'Se ha encontrado un  error..!',
+					    content: 'Verifique que todos los campos esten llenos..!',
+					    type: 'red',
+					    typeAnimated: true,
+					    confirm: function(){
+					        alert('Confirmed!');
+					    }
+					});
+				}
+
+			});
+
+			// Capturando el change de departamento
+			$("#id_departamento").change(function() {
+				// Guardamos la data de la url que trae el formulario
+				var muniUrl = $("#escuale_form").attr("data-muni-url");
+				// Guardamos el id del departamento
+				var departamentoId = $(this).val();
+
+				// Iniciamos el metodo ajax
+				$.ajax({
+					url: muniUrl,
+					data: {
+						'depto': departamentoId
+					},
+					success: function (data) {
+						$("#id_municipio").html(data);
+						console.log(data);
+					}
+				});
+			});
+		{% endif %}
+</script>
